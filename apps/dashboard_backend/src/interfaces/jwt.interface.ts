@@ -1,4 +1,4 @@
-import { Role } from "../constant/enum.js";
+import { Role } from "../constants/enum.js";
 
 export interface IJwtPayload {
   id: string;

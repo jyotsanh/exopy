@@ -7,9 +7,9 @@ import { loginODT, registerODT } from "../../../validators/auth.validator.js";
 import passport from "passport";
 import { env } from "../../../config/env.js";
 import { daysToMs } from "../../../utils/jwt.js";
-import authMiddleware from "../../../middlewares/Auth/authentication.middleware.js";
-import { authorization } from "../../../middlewares/Auth/authorization.middleware.js";
-import { Role } from "../../../constant/enum.js";
+import authMiddleware from "../../../middlewares/auth/authentication.middleware.js";
+import { authorization } from "../../../middlewares/auth/authorization.middleware.js";
+import { Role } from "../../../constants/enum.js";
 import { User } from "../../../models/user.model.js";
 
 const router = Router();

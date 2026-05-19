@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IRegion } from "./types/types.js";
+import { IRegion } from "./types/index.js";
 
 const regionSchema = new Schema<IRegion>(
   {

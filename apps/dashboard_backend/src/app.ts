@@ -5,7 +5,8 @@ import passport from "passport";
 import morgan from "morgan";
 import client from "prom-client";
 
-import { globalErrorHandler } from "./middlewares/errorHandler/globalErrorHandler.middleware.js";
+// import { globalErrorHandler } from "./middlewares/er/globalErrorHandler.middleware.js";
+import { globalErrorHandler } from "./middlewares/error-handler/globalErrorHandler.middleware.js";
 import indexRoute from "./routes/index.route.js";
 import configurePassport from "./config/passport.js";
 import { env } from "./config/env.js";

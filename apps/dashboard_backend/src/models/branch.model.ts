@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IBranch } from "./types/types.js";
+import { IBranch } from "./types/index.js";
 
 const branchSchema = new Schema<IBranch>({
   name: { type: String, required: true },

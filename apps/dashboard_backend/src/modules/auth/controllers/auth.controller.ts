@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import type { AuthService } from "../services/auth.service.js";
 import { daysToMs } from "../../../utils/jwt.js";
 import { env } from "../../../config/env.js";
-import { StatusCodes } from "../../../constant/statusCode.js";
+import { StatusCodes } from "../../../constants/statusCode.js";
 
 
 export class AuthController {

@@ -1,4 +1,4 @@
-import { StatusCodes } from "../constant/statusCode.js";
+import { StatusCodes } from "../constants/statusCode.js";
 
 export interface IError {
   name: string;

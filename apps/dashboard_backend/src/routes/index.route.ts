@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import authRoute from "../modules/auth/routes/auth.routes.js";
 import organizationRoute from "./organization.route.js";
-import { Role } from "../constant/enum.js";
+import { Role } from "../constants/enum.js";
 
 interface Route {
   path: string;

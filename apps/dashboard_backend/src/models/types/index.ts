@@ -1,7 +1,7 @@
 // src/models/types.ts
 
 import mongoose, { Document } from "mongoose";
-import { Role } from "../../constant/enum.js";
+import { Role } from "../../constants/enum.js";
 
 export interface IOrganization extends Document {
   id: string;

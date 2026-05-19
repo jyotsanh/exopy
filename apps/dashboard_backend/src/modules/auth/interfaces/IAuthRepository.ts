@@ -1,6 +1,6 @@
-import type { IUser } from "../../../models/types/types.js";
-import type { IRefreshToken } from "../../../models/types/types.js";
-import type { Role } from "../../../constant/enum.js";
+import type { IUser } from "../../../models/types/index.js";
+import type { IRefreshToken } from "../../../models/types/index.js";
+import type { Role } from "../../../constants/enum.js";
 import type { deviceInfo } from "../types/index.js";
 
 export interface IAuthRepository {

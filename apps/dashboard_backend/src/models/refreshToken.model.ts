@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { IRefreshToken } from "./types/types.js";
+import { IRefreshToken } from "./types/index.js";
 import { daysToMs } from "../utils/jwt.js";
 
 const refreshTokenSchema = new Schema<IRefreshToken>(

@@ -3,7 +3,7 @@ import { env } from "../config/env.js";
 import {
   IJwtPayload,
   IRefreshTokenPayload,
-} from "../interface/jwt.interface.js";
+} from "../interfaces/jwt.interface.js";
 import HttpException from "./httpException.utils.js";
 
 const JWT_SECRET = env.JWT_SECRET;

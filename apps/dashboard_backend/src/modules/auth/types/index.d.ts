@@ -1,4 +1,4 @@
-import { Role } from "../../../constant/enum.ts";
+import { Role } from "../../../constants/enum.ts";
 
 export type deviceInfo = {
     userAgent?: string;

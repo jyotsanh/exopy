@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response } from "express";
 import HttpException from "../../utils/httpException.utils.js";
-import { Role } from "../../constant/enum.js";
-import { IJwtPayload } from "../../interface/jwt.interface.js";
+import { Role } from "../../constants/enum.js";
+import { IJwtPayload } from "../../interfaces/jwt.interface.js";
 
 export const authorization = (roles: Role[]) => {
   return (req: Request, res: Response, next: NextFunction) => {

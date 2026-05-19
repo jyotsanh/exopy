@@ -7,9 +7,9 @@ import {
   organizationIdParamODT,
   paginationQueryODT,
 } from "../validators/organization.validator.js";
-import authMiddleware from "../middlewares/Auth/authentication.middleware.js";
-import { authorization } from "../middlewares/Auth/authorization.middleware.js";
-import { Role } from "../constant/enum.js";
+import authMiddleware from "../middlewares/auth/authentication.middleware.js";
+import { authorization } from "../middlewares/auth/authorization.middleware.js";
+import { Role } from "../constants/enum.js";
 import { catchAsync } from "../utils/catchAsync.utils.js";
 
 const router = Router();

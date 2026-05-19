@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { OrganizationService } from "../services/organization.service.js";
-import { StatusCodes } from "../constant/statusCode.js";
+import { StatusCodes } from "../constants/statusCode.js";
 import HttpException from "../utils/httpException.utils.js";
 import { z } from "zod";
 import { organizationIdParamODT, paginationQueryODT } from "../validators/organization.validator.js";

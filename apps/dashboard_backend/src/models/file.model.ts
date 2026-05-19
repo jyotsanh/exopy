@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IFile } from "./types/types.js";
+import { IFile } from "./types/index.js";
 
 const fileSchema = new Schema<IFile>({
   name: { type: String, required: true, index: true },

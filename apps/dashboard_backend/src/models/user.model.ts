@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
-import { IUser } from "./types/types.js";
-import { Role } from "../constant/enum.js";
+import { IUser } from "./types/index.js";
+import { Role } from "../constants/enum.js";
 
 const userSchema = new Schema<IUser>(
   {

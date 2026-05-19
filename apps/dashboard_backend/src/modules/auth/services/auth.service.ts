@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { UAParser } from "ua-parser-js";
-import type { IUser } from "../../../models/types/types.js";
+import type { IUser } from "../../../models/types/index.js";
 import type { IAuthRepository } from "../interfaces/IAuthRepository.js";
 import type { deviceInfo, IAuthResponse } from "../types/index.js";
 import {
@@ -10,7 +10,7 @@ import {
   verifyRefreshToken,
 } from "../../../utils/jwt.js";
 import HttpException from "../../../utils/httpException.utils.js";
-import { Role } from "../../../constant/enum.js";
+import { Role } from "../../../constants/enum.js";
 
 export class AuthService {
   constructor(private readonly repository: IAuthRepository) {}
