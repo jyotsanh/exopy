@@ -3,8 +3,8 @@ from typing import Annotated, Literal
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from src.application.cloud import CloudStorageDispatcher
-from src.application.vector_store import VectorStoreDispatcher
+from src.core.cloud import CloudStorageDispatcher
+from src.core.vector_store import VectorStoreDispatcher
 from src.config import logger, settings
 from src.schemas.cloud_store_schema import CloudStorageType
 from src.schemas.response_schema import (
@@ -20,8 +20,8 @@ from src.schemas.vector_store_schema import (
     VectorStoreType,
     IntentEnum
 )
-from src.services.ingestion.file_service import FileProcessingService
-from src.utility.mongo_utility import (
+from src.services.ingestion import FileProcessingService
+from src.utils.mongo_utils import (
     create_new_document_file_metadata,
     fetch_document_details,
     fetch_previous_document_id,
@@ -31,8 +31,8 @@ from src.middlewares import get_mongo_database
 
 
 # exception
-from src.application.vector_store.exceptions import VectorStoreException
-from src.application.cloud.exception import CloudStorageException
+from src.core.vector_store.exceptions import VectorStoreException
+from src.core.cloud.exception import CloudStorageException
 from src.services.ingestion.exception import FileServiceException
 
 file_router = APIRouter()

@@ -9,7 +9,7 @@ from fastapi.exceptions import RequestValidationError
 
 # application
 from src.config import logger, settings
-from src.application.vector_store import VectorStoreDispatcher
+from src.core.vector_store import VectorStoreDispatcher
 from src.middlewares import (
     RateLimiterMiddleware, 
     SecurityHeadersMiddleware,  
@@ -17,7 +17,7 @@ from src.middlewares import (
 )
 from src.services import AsyncRedisClient
 from src.routers.api import api_router
-from src.exception import AppBaseException
+from src.exceptions import AppBaseException
 from src.exception_handlers import (
     api_exception_handler, 
     validation_exception_handler

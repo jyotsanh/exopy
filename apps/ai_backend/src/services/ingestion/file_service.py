@@ -6,15 +6,15 @@ import aiohttp
 from aiohttp import ClientConnectionError, ClientResponseError, InvalidUrlClientError
 from fastapi import UploadFile
 
-from src.application.cloud.base import BaseCloudStorage
-from src.application.preprocessing import (
+from src.core.cloud.base import BaseCloudStorage
+from src.core.preprocessing import (
     ChunkingDispatcher,
     CleaningDispatcher,
     EmbeddingDispatcher,
 )
 
 # application
-from src.application.vector_store.base import BaseVectorStore
+from src.core.vector_store.base import BaseVectorStore
 
 # configs
 from src.config import logger, settings
@@ -23,7 +23,7 @@ from src.config import logger, settings
 from src.schemas.vector_store_schema import Config, DataCategory, FileMetadataModel
 
 # utility
-from src.utility.helper_utility import buildUrl, ext_to_category, get_file_type
+from src.utils.helpers import buildUrl, ext_to_category, get_file_type
 
 class FileProcessingService:
 

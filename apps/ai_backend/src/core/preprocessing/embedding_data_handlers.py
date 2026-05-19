@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from langchain_core.documents import Document
 
-from src.application.vector_store.base import BaseVectorStore
+from src.core.vector_store.base import BaseVectorStore
 from src.schemas.vector_store_schema import Config
 
 

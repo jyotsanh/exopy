@@ -1,4 +1,4 @@
-from src.exception import AppBaseException
+from src.exceptions import AppBaseException
 
 
 class CloudStorageException(AppBaseException): ...

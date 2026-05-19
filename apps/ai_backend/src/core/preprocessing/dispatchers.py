@@ -1,16 +1,16 @@
-from src.application.preprocessing.chunking_data_handlers import (
+from src.core.preprocessing.chunking_data_handlers import (
     BaseChunkingDocument,
     ChunkingCSVDocument,
     ChunkingPDFDocument,
     ChunkingTextDocument,
 )
-from src.application.preprocessing.cleaning_data_handlers import (
+from src.core.preprocessing.cleaning_data_handlers import (
     BaseCleanDocument,
     CleaningCSVDocument, # TODO
     CleaningPDFDocument, # TODO
     CleaningTextDocument,
 )
-from src.application.preprocessing.embedding_data_handlers import (
+from src.core.preprocessing.embedding_data_handlers import (
     BaseEmbedDocument,
     EmbeddingCSVDocument,
     EmbeddingPDFDocument,
