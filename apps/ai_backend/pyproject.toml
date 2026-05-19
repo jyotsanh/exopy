@@ -1,0 +1,91 @@
+[project]
+name = "agent-ai-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Jyotsan", email = "hamaljyotsan@gmail.com" }]
+dependencies = [
+    "aiohttp>=3.13.3",
+    "boto3>=1.42.64",
+    "fastapi>=0.128.0",
+    "langchain>=1.2.7",
+    "langchain-openai>=1.1.7",
+    "loguru>=0.7.3",
+    "motor>=3.7.1",
+    "pinecone[asyncio]>=8.1.0",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+    "python-multipart>=0.0.22",
+    "redis>=7.3.0",
+    "uvicorn>=0.40.0",
+]
+
+[project.scripts]
+dev = "src:dev"
+server = "src:server"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# src as package
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+
+[dependency-groups] # -> development dependencies are local-only and will not be included in the project requirements
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "httpx>=0.27.0",
+    "ruff>=0.1.0", # astral, built-in code formatter faster than **black
+    "ty>=0.0.12", # astral, type checker faster than **mypy
+    "pandas>=3.0.0",
+]
+
+### linting and formating (ruff)
+
+[tool.ruff]
+target-version = "py312" 
+line-length = 100 # Max line length allowed
+
+[tool.ruff.lint] # explains what rules should be enforced in this project.
+select = [
+    "E",      # PEP8 style errors (indentation, spacing, etc.)
+    "W",      # PEP8 warnings (less severe style issues)
+    "F",      # Pyflakes (finds unused imports/vars)
+    "I",      # isort (sorts imports automatically)
+    "B",      # flake8-bugbear (finds common bugs/pitfalls)
+    "UP",     # pyupgrade (modernizes python syntax)
+    "SIM",    # flake8-simplify (suggests simpler code)
+]
+ignore = [
+    "B008",   # allows default params in funciton, which will only run once at import time.(Needed for FastAPI Depends)
+]             # bad practice.
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto" # linux vs windows '\n' and '\r\n' 
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"] # sorts the import in this order (std > third party > src)
+
+
+## type checking (astral ty)
+[tool.ty.environment]
+root = ["./src"]
+python = "./.venv" # virtual enviroment path
+python-version = "3.11"
+
+[tool.ty.analysis]
+# enable support for `type: ignore` comments
+respect-type-ignore-comments = true
+
+
+[tool.ty.terminal]
+output-format = "concise" # The format to use for printing diagnostic messages.

@@ -1,0 +1,13 @@
+from src.exception import AppBaseException
+
+
+class CloudStorageException(AppBaseException): ...
+
+
+class CloudStorageNotImplementedException(CloudStorageException): ...
+
+
+class CloudStorageUnsupportedType(CloudStorageException): ...
+
+
+class CloudStorageImportError(CloudStorageException): ...

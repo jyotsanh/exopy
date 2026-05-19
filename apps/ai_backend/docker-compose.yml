@@ -1,0 +1,52 @@
+services:
+  # ── Redis ──────────────────────────────────────────
+  redis_server:
+    image: redis:7-alpine
+    container_name: exopy-redis-service
+    ports:
+      - "6399:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo_server:
+    image: mongo:7
+    container_name: exopy-mongo-service
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-exopy}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend Service ────────────────────────────────
+  agent_ai_service:
+    build: .
+    container_name: exopy-agent-service
+    ports:
+      - "8015:8000"
+    env_file:
+      - .env.prod
+
+    restart: unless-stopped
+    depends_on:
+      redis_server:
+        condition: service_healthy
+      mongo_server:
+        condition: service_healthy
+
+
+volumes:
+  redis_data:
+  mongo_data:

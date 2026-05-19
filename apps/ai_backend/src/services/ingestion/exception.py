@@ -1,0 +1,19 @@
+from src.exception import AppBaseException
+
+
+class FileServiceException(AppBaseException): ...
+
+
+class FileUnSupportedTypeException(FileServiceException): ...
+
+
+class FileTooLargeException(FileServiceException): ...
+
+
+class FileDocumentParsingException(FileServiceException): ...
+
+
+class FileEmptyException(FileServiceException): ...
+
+
+class FileServiceNotImplementedError(FileServiceException): ...

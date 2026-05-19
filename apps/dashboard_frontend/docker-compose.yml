@@ -1,0 +1,24 @@
+# Usage:
+#   Development : docker compose up --build
+#   Production  : docker compose --env-file .env.prod up --build
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # VITE_BASE_URL is read from the active .env file or the shell environment.
+        # Vite bakes this value into the bundle at build time.
+        - VITE_BASE_URL=${VITE_BASE_URL}
+    image: agent-dashboard-frontend:latest
+    container_name: agent-dashboard-frontend
+    ports:
+      - "9023:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
