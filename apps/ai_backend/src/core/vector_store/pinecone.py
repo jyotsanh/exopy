@@ -5,9 +5,10 @@ from typing import Any
 
 # third-party packages
 from langchain_core.documents import Document
+from loguru import logger
+
 
 from src.config import settings
-from src.config.logging import logger
 from src.schemas.vector_store_schema import Config
 
 from .base import BaseVectorStore

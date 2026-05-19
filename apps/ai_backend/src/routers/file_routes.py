@@ -5,7 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.core.cloud import CloudStorageDispatcher
 from src.core.vector_store import VectorStoreDispatcher
-from src.config import logger, settings
+from src.config import  settings
 from src.schemas.cloud_store_schema import CloudStorageType
 from src.schemas.response_schema import (
     FileDeletedResponse,
@@ -29,6 +29,8 @@ from src.utils.mongo_utils import (
 )
 from src.middlewares import get_mongo_database
 
+# logger
+from loguru import logger
 
 # exception
 from src.core.vector_store.exceptions import VectorStoreException

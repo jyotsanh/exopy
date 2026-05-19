@@ -2,9 +2,9 @@ import re
 from abc import ABC, abstractmethod
 
 from langchain_core.documents import Document
+from loguru import logger
 
 # from services._usage_service import add_usage
-from src.config import logger
 from src.schemas.vector_store_schema import Config
 from src.services.ingestion.exception import FileServiceNotImplementedError
 

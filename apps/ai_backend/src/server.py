@@ -6,9 +6,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
+from loguru import logger
 
 # application
-from src.config import logger, settings
+from src.config import settings
 from src.core.vector_store import VectorStoreDispatcher
 from src.middlewares import (
     RateLimiterMiddleware, 

@@ -7,7 +7,6 @@ from loguru import logger
 
 # custom packages
 from src.config import settings
-from src.config.logging import logger
 from src.schemas.vector_store_schema import Config
 
 from .base import BaseVectorStore

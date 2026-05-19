@@ -17,7 +17,8 @@ from src.core.preprocessing import (
 from src.core.vector_store.base import BaseVectorStore
 
 # configs
-from src.config import logger, settings
+from src.config import settings
+from loguru import logger
 
 # schema
 from src.schemas.vector_store_schema import Config, DataCategory, FileMetadataModel
