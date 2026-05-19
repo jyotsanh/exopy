@@ -1,0 +1,92 @@
+services:
+  # ── Redis ──────────────────────────────────────────
+  redis_server:
+    image: redis:7-alpine
+    container_name: exopy-redis-service
+    ports:
+      - "6399:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongo_server:
+    image: mongo:7
+    container_name: exopy-mongo-service
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB:-exopy}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Agent Backend Service ────────────────────────────────
+  agent_ai_service:
+    build:
+      context: ./apps/ai_backend
+      dockerfile: Dockerfile
+    container_name: exopy-agent-service
+    ports:
+      - "8015:8000"
+    env_file:
+      - ./apps/ai_backend/.env.prod
+
+    restart: unless-stopped
+    depends_on:
+      redis_server:
+        condition: service_healthy
+      mongo_server:
+        condition: service_healthy
+  
+  # -----Dashboard Backend ----------------
+  dashboard-backend:
+    build:
+      context: ./apps/dashboard_backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: agent-dashboard-backend
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - ./apps/dashboard_backend/.env
+    environment:
+      NODE_ENV: production
+  
+
+  # ---------Dashboard Frontend -------------------
+  dashboard-frontend:
+    build:
+      context: ./apps/dashboard_frontend
+      dockerfile: Dockerfile
+      args:
+        # VITE_BASE_URL is read from the active .env file or the shell environment.
+        # Vite bakes this value into the bundle at build time.
+        - VITE_BASE_URL=${VITE_BASE_URL}
+    image: agent-dashboard-frontend:latest
+    container_name: agent-dashboard-frontend
+    ports:
+      - "9023:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+
+
+volumes:
+  redis_data:
+  mongo_data:
