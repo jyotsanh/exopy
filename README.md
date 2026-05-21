@@ -210,6 +210,65 @@ npm run dev             # start Vite dev server on localhost:5173
 
 ---
 
+## Running Tests
+
+Each app ships with its own test suite. Run them from the app directory after installing dependencies.
+
+| App | Stack | Location |
+|---|---|---|
+| `ai_backend` | pytest + httpx | `apps/ai_backend/tests/` |
+| `dashboard_backend` | Jest + Supertest (ts-jest, ESM) | `apps/dashboard_backend/tests/` |
+| `dashboard_frontend` | Vitest + React Testing Library (jsdom) | `apps/dashboard_frontend/tests/` |
+
+### AI Backend (pytest)
+
+```bash
+cd apps/ai_backend
+uv sync                                       # ensure dev deps are installed
+uv run pytest                                 # run the full suite
+uv run pytest tests/test_helpers.py -v        # run a single file
+uv run pytest tests/test_helpers.py::TestBuildUrl::test_joins_base_and_endpoint_with_query  # one test
+```
+
+The FastAPI lifespan (MongoDB / Redis / Pinecone) is intentionally skipped in the test `TestClient` fixture (`tests/conftest.py`), so external services are **not** required to run the suite.
+
+### Dashboard Backend (Jest + Supertest)
+
+```bash
+cd apps/dashboard_backend
+npm install                                   # ensure dev deps are installed
+npm test                                      # run the full suite
+npm test -- tests/utils.test.ts               # run a single file
+npm test -- -t "JWT helpers"                  # run tests matching a name pattern
+```
+
+Tests run under `NODE_OPTIONS=--experimental-vm-modules` because the source tree is ESM. Required env vars (`MONGO_URI`, `JWT_SECRET`, etc.) are set in `tests/setup.env.ts` so `src/config/env.ts` validation passes without a real `.env`. Endpoints that touch MongoDB are not covered — the suite focuses on validators, auth/authorization middleware, error shape, and health/metrics.
+
+### Dashboard Frontend (Vitest + RTL)
+
+```bash
+cd apps/dashboard_frontend
+npm install                                   # ensure dev deps are installed
+npm test                                      # run the full suite once
+npm run test:watch                            # watch mode
+npm test -- tests/components.test.tsx         # run a single file
+npm test -- -t "ThemeToggle"                  # run tests matching a name pattern
+```
+
+Runs in a `jsdom` environment with `@testing-library/jest-dom` matchers. `window.matchMedia` is shimmed in `tests/setup.ts` because jsdom doesn't ship it.
+
+### Running Everything
+
+From the repository root:
+
+```bash
+( cd apps/ai_backend          && uv run pytest ) \
+  && ( cd apps/dashboard_backend  && npm test ) \
+  && ( cd apps/dashboard_frontend && npm test )
+```
+
+---
+
 ## Project Status
 
 1. **Project Inception**
