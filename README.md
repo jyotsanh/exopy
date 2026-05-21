@@ -1,6 +1,6 @@
 # Exopy
 
-Exopy is a SaaS monorepo platform for deploying AI-powered chatbots, automation workflows, and CRM tools for organizations. It combines an AI agent service, a dashboard API, and a React frontend into a single deployable system.
+Exopy is a SaaS monorepo platform an AI-agents Orchestrator, automation workflows, and CRM tools for users. It combines an AI agent Orchestrator, a dashboard API, and a React frontend into a single deployable system.
 
 ---
 
