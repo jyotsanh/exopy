@@ -59,7 +59,7 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     env_file:
-      - ./apps/dashboard_backend/.env
+      - ./apps/dashboard_backend/.env.prod
     environment:
       NODE_ENV: production
   
@@ -77,6 +77,8 @@ services:
     container_name: agent-dashboard-frontend
     ports:
       - "9023:80"
+    env_file:
+      - ./apps/dashboard_frontend/.env.prod
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/"]
