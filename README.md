@@ -12,7 +12,8 @@ exopy/
 │   ├── ai_backend/          # FastAPI AI agent service (Python)
 │   ├── dashboard_backend/   # Express.js dashboard API (TypeScript)
 │   └── dashboard_frontend/  # React + Vite frontend (TypeScript)
-├── docker-compose.yml       # Root compose file for all services
+├── docker-compose.yml       # Production compose (compiled builds, nginx)
+├── docker-compose.dev.yml   # Development compose (hot reload, Vite HMR)
 └── README.md
 ```
 
@@ -56,13 +57,25 @@ exopy/
 
 ## Services & Ports
 
+### Development (`docker-compose.dev.yml`)
+
+| Service | Container Name | Host Port | Container Port |
+|---|---|---|---|
+| Redis | `exopy-redis-service` | `6399` | `6379` |
+| MongoDB | `exopy-mongo-service` | `27017` | `27017` |
+| AI Backend | `exopy-agent-dev` | `8015` | `8000` |
+| Dashboard API | `exopy-dashboard-backend-dev` | `3000` | `3000` |
+| Frontend (Vite) | `exopy-frontend-dev` | `5173` | `5173` |
+
+### Production (`docker-compose.yml`)
+
 | Service | Container Name | Host Port | Container Port |
 |---|---|---|---|
 | Redis | `exopy-redis-service` | `6399` | `6379` |
 | MongoDB | `exopy-mongo-service` | `27017` | `27017` |
 | AI Backend | `exopy-agent-service` | `8015` | `8000` |
-| Dashboard API | `agent-dashboard-backend` | `3000` | `3000` |
-| Frontend | `agent-dashboard-frontend` | `9023` | `80` |
+| Dashboard API | `exopy-dashboard-backend` | `3000` | `3000` |
+| Frontend (nginx) | `exopy-dashboard-frontend` | `9023` | `80` |
 
 ---
 
@@ -85,40 +98,85 @@ cd exopy
 
 ### 2. Set up environment variables
 
-Each app has its own `.env.example` file. Copy and configure each:
+**For development** — copy each example to `.env`:
 
 ```bash
-cp apps/ai_backend/.env.example apps/ai_backend/.env.prod
+cp apps/ai_backend/.env.example       apps/ai_backend/.env
 cp apps/dashboard_backend/.env.example apps/dashboard_backend/.env
 cp apps/dashboard_frontend/.env.example apps/dashboard_frontend/.env
 ```
 
----
-
-## Running with Docker (Recommended)
-
-The root `docker-compose.yml` orchestrates all services.
+**For production** — copy each example to `.env.prod`:
 
 ```bash
-# Build and start all services
-docker compose up -d --build
-
-# Check running containers
-docker ps
-
-# View logs for a specific service
-docker compose logs -f agent_ai_service
-docker compose logs -f api
-docker compose logs -f frontend
+cp apps/ai_backend/.env.example       apps/ai_backend/.env.prod
+cp apps/dashboard_backend/.env.example apps/dashboard_backend/.env.prod
+cp apps/dashboard_frontend/.env.example apps/dashboard_frontend/.env.prod
 ```
 
-### Access Points
+Fill in secrets (API keys, MongoDB URI, JWT secrets, etc.) in the copied files before starting.
+
+---
+
+## Running with Docker
+
+### Development mode (hot reload)
+
+Uses `docker-compose.dev.yml`. Source code is volume-mounted so changes reflect instantly without rebuilding.
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+The dashboard backend overrides `MONGO_URI` to point at the local Docker MongoDB (`exopy-mongo-service`) automatically — no manual change needed.
+
+**Access points:**
 
 | Service | URL |
 |---|---|
 | AI Backend Swagger UI | http://localhost:8015/docs |
 | Dashboard API | http://localhost:3000 |
-| Frontend | http://localhost:9023 |
+| Frontend (Vite HMR) | http://localhost:5173 |
+
+**Useful commands:**
+
+```bash
+# Tail logs for a specific service
+docker compose -f docker-compose.dev.yml logs -f agent_ai_service
+docker compose -f docker-compose.dev.yml logs -f dashboard_backend
+docker compose -f docker-compose.dev.yml logs -f dashboard_frontend
+
+# Stop all services
+docker compose -f docker-compose.dev.yml down
+```
+
+### Production mode
+
+Uses `docker-compose.yml`. Builds compiled production images — TypeScript compiled to JS, Vite bundle served via nginx.
+
+```bash
+docker compose up --build -d
+```
+
+**Access points:**
+
+| Service | URL |
+|---|---|
+| AI Backend Swagger UI | http://localhost:8015/docs |
+| Dashboard API | http://localhost:3000 |
+| Frontend (nginx) | http://localhost:9023 |
+
+**Useful commands:**
+
+```bash
+# Tail logs for a specific service
+docker compose logs -f agent_ai_service
+docker compose logs -f dashboard-backend
+docker compose logs -f dashboard-frontend
+
+# Stop all services
+docker compose down
+```
 
 ---
 
@@ -147,18 +205,17 @@ npm run dev             # start with hot reload via tsx
 ```bash
 cd apps/dashboard_frontend
 npm install
-npm run dev             # start Vite dev server
+npm run dev             # start Vite dev server on localhost:5173
 ```
-
 
 ---
 
 ## Project Status
 
-1. **Project Inception** ← _we are here_
+1. **Project Inception**
 2. Requirements Gathering
 3. Design Phase
-4. Development
+4. **Development** ← _we are here_
 5. Testing
 6. Deployment
 7. Maintenance
