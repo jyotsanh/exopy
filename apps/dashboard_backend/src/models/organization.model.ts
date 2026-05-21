@@ -5,7 +5,7 @@ const organizationSchema = new Schema<IOrganization>({
   name: { type: String, required: true},
   address: String,
   contact_number: String,
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   created_by: { type: Schema.Types.ObjectId, ref: "User", required: true },
   updated_by: { type: Schema.Types.ObjectId, ref: "User" },
   is_deleted: { type: Boolean, default: false },

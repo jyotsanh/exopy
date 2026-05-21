@@ -15,9 +15,10 @@ import { catchAsync } from "../utils/catchAsync.utils.js";
 const router = Router();
 
 router.use(authMiddleware());
-// router.use(authorization([Role.SUPERADMIN]));
+
 router.post(
   "/",
+  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(createOrganizationODT),
   catchAsync(OrganizationController.create)
 );
@@ -33,8 +34,9 @@ router.get(
   catchAsync(OrganizationController.getById)
 );
 
-    router.put(
-    "/:id",
+router.put(
+  "/:id",
+  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(organizationIdParamODT, "params"),
   validateRequest(updateOrganizationODT),
   catchAsync(OrganizationController.update)
@@ -42,6 +44,7 @@ router.get(
 
 router.delete(
   "/:id",
+  authorization([Role.SUPERADMIN]),
   validateRequest(organizationIdParamODT, "params"),
   catchAsync(OrganizationController.delete)
 );

@@ -5,7 +5,6 @@ import { IJwtPayload } from "../../interfaces/jwt.interface.js";
 
 export const authorization = (roles: Role[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    console.log("Authorizing user with role:", (req.user as IJwtPayload)?.role);
     if (!req.user) return next(HttpException.forbidden("Access forbidden"));
 
     const userRole = req.user.role as Role;

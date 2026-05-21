@@ -31,11 +31,8 @@ const configurePassport = () => {
 
           // Check if user exists with same email
           if (email) {
-            const isExistingUser: IUser | null = await User.findOne({
-              email,
-            });
+            const isExistingUser: IUser | null = await User.findOne({ email });
             if (isExistingUser) {
-              // Link Google account to existing user
               isExistingUser.googleId = profile.id;
               isExistingUser.profile_image = profile.photos?.[0]?.value || "";
               await isExistingUser.save();
@@ -43,7 +40,15 @@ const configurePassport = () => {
             }
           }
 
-          return done(null, false);
+          // New Google user — create account
+          const newUser = await User.create({
+            email,
+            username: profile.displayName || email?.split("@")[0],
+            password: Math.random().toString(36),
+            googleId: profile.id,
+            profile_image: profile.photos?.[0]?.value || "",
+          });
+          return done(null, newUser);
         } catch (error) {
           return done(error, false);
         }
