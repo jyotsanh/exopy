@@ -60,7 +60,7 @@ useEffect(() => {
 
   return (
     <>
-      <div className="p-3 sm:p-4 md:p-6 lg:p-8 bg-gray-100 rounded-2xl sm:rounded-3xl">
+      <div className="p-3 sm:p-4 md:p-6 lg:p-8 bg-muted rounded-2xl sm:rounded-3xl">
         <DashboardHeader
           title="Dashboard"
           subtitle="Plan, prioritize, and accomplish your tasks with ease."

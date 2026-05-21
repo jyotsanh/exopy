@@ -74,7 +74,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ groups }) => {
                       {!isCollapsed && (
                         <span
                           className={
-                            isActive ? "text-black" : "text-muted-foreground"
+                            isActive ? "text-foreground" : "text-muted-foreground"
                           }
                         >
                           {item.label}
@@ -84,7 +84,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ groups }) => {
                     {item.badge && (
                       <SidebarMenuBadge
                         className={cn(
-                          isActive ? "bg-primary text-primary-foreground ": "bg-gray-200 text-muted-foreground",
+                          isActive ? "bg-primary text-primary-foreground ": "bg-muted text-muted-foreground",
                         )}
                       >
                         {item.badge}

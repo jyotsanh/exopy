@@ -21,12 +21,12 @@ const AnalyticsBar: React.FC<AnalyticsBarProps> = ({ day, val, active }) => {
             "w-full rounded-3xl transition-all duration-500 ",
             active
               ? "bg-green-700 shadow-lg shadow-green-700/40"
-              : "bg-[repeating-linear-gradient(45deg,#166534,#166534_3px,#ffffff_3px,#ffffff_8px)]"
+              : "bg-[repeating-linear-gradient(45deg,#166534,#166534_3px,#ffffff_3px,#ffffff_8px)] dark:bg-[repeating-linear-gradient(45deg,#166534,#166534_3px,#1f2937_3px,#1f2937_8px)]"
           )}
           style={{ height: `${val}%` }}
         />
       </div>
-      <span className="text-xs text-gray-400 font-medium">{day}</span>
+      <span className="text-xs text-muted-foreground font-medium">{day}</span>
     </div>
   );
 };
@@ -42,8 +42,8 @@ const AnalyticsCard: React.FC<AnalyticsCardProps> = ({
   data,
 }) => {
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col justify-between h-56" >
-      <h2 className="font-bold text-base text-gray-900 mb-5">{title}</h2>
+    <div className="bg-card rounded-2xl p-5 border border-border shadow-sm flex flex-col justify-between h-56" >
+      <h2 className="font-bold text-base text-card-foreground mb-5">{title}</h2>
       <div className="flex items-end gap-3 h-24 px-1">
         {data.map((item, index) => (
           <AnalyticsBar key={`${item.day}-${index}`} {...item} />

@@ -21,7 +21,7 @@ const OrganizationPagination = ({
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const buttonBase =
-    "w-11 h-11 rounded-2xl border-blue-100 bg-white/75 text-slate-600";
+    "w-11 h-11 rounded-2xl border-border bg-card text-foreground hover:bg-accent";
 
   return (
     <div className="flex items-center justify-between mt-6 px-1">
@@ -57,7 +57,7 @@ const OrganizationPagination = ({
             size="icon"
             className={`w-11 h-11 rounded-2xl text-base font-medium ${
               page === currentPage
-                ? "bg-primary text-white border-slate-800"
+                ? "bg-primary text-white border-transparent"
                 : buttonBase
             }`}
             onClick={() => onPageChange(page)}
@@ -91,8 +91,8 @@ const OrganizationPagination = ({
 
       {/* Per Page Selector */}
       <select
-        className="h-11 px-5 rounded-2xl border border-blue-100 
-                   bg-white/75 text-slate-600 text-base outline-none cursor-pointer"
+        className="h-11 px-5 rounded-2xl border border-border
+                   bg-card text-foreground text-base outline-none cursor-pointer"
         value={perPage}
         onChange={(e) => onPerPageChange(Number(e.target.value))}
       >

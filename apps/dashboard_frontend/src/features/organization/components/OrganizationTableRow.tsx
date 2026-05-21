@@ -21,9 +21,9 @@ const OrganizationTableRow = ({
   onDelete,
   onAdd,
 }: OrganizationTableRowProps) => (
-  <TableRow className="org-table-row border-b border-blue-100/85">
+  <TableRow className="org-table-row border-b border-border">
     {/* Serial Number */}
-    <TableCell className="py-6 px-7 text-black font-semibold text-base w-24">
+    <TableCell className="py-6 px-7 text-foreground font-semibold text-base w-24">
       {serialNumber}
     </TableCell>
 
@@ -32,8 +32,8 @@ const OrganizationTableRow = ({
       <div className="flex items-center gap-4">
         <OrganizationAvatar name={org.name} />
         <div>
-          <p className="font-semibold text-slate-700 text-sm">{org.name}</p>
-          <p className="text-slate-400 text-sm mt-0.5">{org.email}</p>
+          <p className="font-semibold text-foreground text-sm">{org.name}</p>
+          <p className="text-muted-foreground text-sm mt-0.5">{org.email}</p>
         </div>
       </div>
     </TableCell>
@@ -44,8 +44,8 @@ const OrganizationTableRow = ({
         <Button
           variant="outline"
           size="icon"
-          className="w-11 h-11 rounded-2xl border-blue-100 
-                     bg-white/80 hover:bg-blue-50 text-slate-500"
+          className="w-11 h-11 rounded-2xl border-border
+                     bg-card hover:bg-accent text-muted-foreground"
           title="Open"
         >
           <FiExternalLink className="text-base" />
@@ -54,8 +54,8 @@ const OrganizationTableRow = ({
         <Button
           variant="outline"
           size="icon"
-          className="w-11 h-11 rounded-2xl border-blue-100 
-                     bg-white/80 hover:bg-blue-50 text-slate-500"
+          className="w-11 h-11 rounded-2xl border-border
+                     bg-card hover:bg-accent text-muted-foreground"
           title="Add"
           onClick={onAdd}
         >
@@ -65,8 +65,9 @@ const OrganizationTableRow = ({
         <Button
           variant="outline"
           size="icon"
-          className="w-11 h-11 rounded-2xl border-red-100 
-                     bg-red-50/80 hover:bg-red-100 text-red-500"
+          className="w-11 h-11 rounded-2xl border-red-100 dark:border-red-900/60
+                     bg-red-50/80 hover:bg-red-100 text-red-500
+                     dark:bg-red-950/40 dark:hover:bg-red-900/60 dark:text-red-300"
           title="Delete"
           disabled={isDeleting}
           onClick={() => onDelete(org._id)}

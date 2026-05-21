@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 
 interface AppHeaderProps {
   notificationCount?: number;
@@ -27,11 +28,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
     console.log("userAvatar:", userAvatar);
 
   return (
-    <header className="flex h-24 shrink-0 items-center gap-3  px-4 bg-gray-100 rounded-3xl">
+    <header className="flex h-24 shrink-0 items-center gap-3  px-4 bg-muted rounded-3xl">
       <SidebarTrigger className="-ml-1" />
 
       {/* Search bar */}
-      <div className="flex items-center gap-2 bg-white border border-border/50 rounded-3xl px-3 py-2 flex-1 max-w-sm">
+      <div className="flex items-center gap-2 bg-card border border-border/50 rounded-3xl px-3 py-2 flex-1 max-w-sm">
         <Search className="size-6 text-muted-foreground shrink-0" />
         <Input
           placeholder="Search task"
@@ -60,21 +61,24 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
       <div className="flex-1" />
 
+      {/* Theme toggle */}
+      <ThemeToggle />
+
       {/* Action icons */}
       <Button
         variant="ghost"
         size="icon"
-        className="size-9 rounded-3xl bg-white cursor-pointer"
+        className="size-9 rounded-3xl bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer"
       >
-        <Mail className="size-5 text-black" />
+        <Mail className="size-5" />
       </Button>
 
       <Button
         variant="ghost"
         size="icon"
-        className="size-9 rounded-3xl bg-white relative cursor-pointer"
+        className="size-9 rounded-3xl bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground relative cursor-pointer"
       >
-        <Bell className="size-5 text-black" />
+        <Bell className="size-5" />
         {notificationCount > 0 && (
           <span className="absolute top-1.5 right-1.5 size-2 bg-destructive rounded-full ring-2 ring-background" />
         )}
@@ -87,7 +91,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       <div className="flex items-center gap-3 pl-1">
         <Avatar className="size-12 ring-2 ring-border/50">
           {userAvatar && <AvatarImage src={userAvatar} alt={userName} />}
-          <AvatarFallback className="text-xs font-semibold bg-pink-100 text-pink-700">
+          <AvatarFallback className="text-xs font-semibold bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-200">
             {initials}
           </AvatarFallback>
         </Avatar>

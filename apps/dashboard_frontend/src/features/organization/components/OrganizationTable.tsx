@@ -42,17 +42,17 @@ const OrganizationTable = ({
 
   return (
     <div
-      className="bg-white/60 backdrop-blur-xl rounded-3xl 
-                    border border-white/80 overflow-hidden"
+      className="bg-card backdrop-blur-xl rounded-3xl
+                    border border-border overflow-hidden"
     >
       <Table>
         {/* Head */}
         <TableHeader>
-          <TableRow className="bg-sky-50/50 border-b border-blue-100/50 hover:bg-sky-50/50">
+          <TableRow className="bg-sky-50/50 dark:bg-sky-950/30 border-b border-border hover:bg-sky-50/50 dark:hover:bg-sky-950/30">
             {TABLE_HEADS.map(({ label, className }) => (
               <TableHead
                 key={label}
-                className={`${className} text-slate-400 font-semibold 
+                className={`${className} text-muted-foreground font-semibold
                             text-sm tracking-widest uppercase`}
               >
                 {label}
@@ -68,7 +68,7 @@ const OrganizationTable = ({
             <TableRow>
               <TableCell
                 colSpan={3}
-                className="text-center text-slate-400 py-16 text-base"
+                className="text-center text-muted-foreground py-16 text-base"
               >
                 <div className="flex items-center justify-center gap-2">
                   <FiLoader className="animate-spin text-lg text-blue-400" />
@@ -83,7 +83,7 @@ const OrganizationTable = ({
             <TableRow>
               <TableCell
                 colSpan={3}
-                className="text-center text-slate-400 py-16 text-base"
+                className="text-center text-muted-foreground py-16 text-base"
               >
                 No organizations found.
               </TableCell>

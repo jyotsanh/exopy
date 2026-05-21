@@ -8,15 +8,15 @@ const RememberMeSection: React.FC<RememberMeSectionProps> = ({ register }) => {
         <input
           {...register("rememberMe")}
           type="checkbox"
-          className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-400 cursor-pointer accent-green-600"
+          className="w-4 h-4 text-green-600 border-border rounded focus:ring-green-400 cursor-pointer accent-green-600"
         />
-        <span className="ml-2 text-gray-700 group-hover:text-gray-900 transition-colors tracking-wide font-mono">
+        <span className="ml-2 text-foreground group-hover:text-foreground/80 transition-colors tracking-wide font-mono">
           Remember me
         </span>
       </label>
       <a
         href="#"
-        className="text-gray-700 hover:text-green-600 transition-colors font-medium tracking-wide font-mono"
+        className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors font-medium tracking-wide font-mono"
       >
         Forgot password?
       </a>

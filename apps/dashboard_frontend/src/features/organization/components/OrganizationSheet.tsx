@@ -71,15 +71,16 @@ const FIELDS: FieldConfig[] = [
 const RequiredBadge = ({ required }: { required: boolean }) =>
   required ? (
     <span
-      className="text-xs font-medium text-rose-500 bg-rose-50 
-                 border border-rose-100 px-2 py-0.5 rounded-full"
+      className="text-xs font-medium text-rose-500 bg-rose-50
+                 border border-rose-100 px-2 py-0.5 rounded-full
+                 dark:bg-rose-950/40 dark:border-rose-900/60 dark:text-rose-300"
     >
       Required
     </span>
   ) : (
     <span
-      className="text-xs font-medium text-slate-400 bg-slate-50 
-                 border border-slate-100 px-2 py-0.5 rounded-full"
+      className="text-xs font-medium text-muted-foreground bg-muted
+                 border border-border px-2 py-0.5 rounded-full"
     >
       Optional
     </span>
@@ -158,22 +159,23 @@ const OrganizationSheet = ({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-md p-0 border-l border-slate-200 bg-white"
+        className="w-full sm:max-w-md p-0 border-l border-border bg-card"
       >
         {/* Header */}
-        <SheetHeader className="px-8 pt-8 pb-6 border-b border-slate-100">
+        <SheetHeader className="px-8 pt-8 pb-6 border-b border-border">
           <div className="flex items-center gap-3 mb-1">
             <div
-              className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 
+              className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100
+                         dark:bg-teal-950/40 dark:border-teal-900/60
                          flex items-center justify-center"
             >
-              <FiGrid className="text-teal-600 text-lg" />
+              <FiGrid className="text-teal-600 dark:text-teal-300 text-lg" />
             </div>
             <div>
-              <SheetTitle className="text-lg font-bold tracking-widest uppercase text-teal-700">
+              <SheetTitle className="text-lg font-bold tracking-widest uppercase text-teal-700 dark:text-teal-300">
                 Register Organization
               </SheetTitle>
-              <SheetDescription className="text-slate-400 text-sm mt-0.5">
+              <SheetDescription className="text-muted-foreground text-sm mt-0.5">
                 Setup a new organization
               </SheetDescription>
             </div>
@@ -194,7 +196,7 @@ const OrganizationSheet = ({
                   <div className="flex items-center gap-2">
                     <label
                       htmlFor={field.name}
-                      className="text-sm font-semibold text-slate-700"
+                      className="text-sm font-semibold text-foreground"
                     >
                       {field.label}
                     </label>
@@ -202,7 +204,7 @@ const OrganizationSheet = ({
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs text-slate-400">{field.description}</p>
+                  <p className="text-xs text-muted-foreground">{field.description}</p>
 
                   {/* Input */}
                   <Input
@@ -214,12 +216,12 @@ const OrganizationSheet = ({
                     aria-describedby={
                       hasError ? `${field.name}-error` : undefined
                     }
-                    className={`h-11 rounded-xl bg-slate-50/60 text-slate-700 
-                               placeholder:text-slate-300 transition-colors
+                    className={`h-11 rounded-xl bg-muted/40 text-foreground
+                               placeholder:text-muted-foreground transition-colors
                                ${
                                  hasError
-                                   ? "border-rose-300 focus-visible:ring-rose-400 focus-visible:border-rose-400"
-                                   : "border-slate-200 focus-visible:ring-teal-400 focus-visible:border-teal-300"
+                                   ? "border-rose-300 dark:border-rose-700 focus-visible:ring-rose-400 focus-visible:border-rose-400"
+                                   : "border-border focus-visible:ring-teal-400 focus-visible:border-teal-300"
                                }`}
                   />
 
@@ -236,7 +238,7 @@ const OrganizationSheet = ({
 
           {/* Footer */}
           <SheetFooter
-            className="px-8 py-6 border-t border-slate-100 
+            className="px-8 py-6 border-t border-border
                        flex flex-row gap-3 justify-end"
           >
             <Button
@@ -244,8 +246,8 @@ const OrganizationSheet = ({
               variant="outline"
               onClick={handleCancel}
               disabled={isSubmitting}
-              className="h-11 px-6 rounded-xl border-slate-200 
-                         text-slate-600 hover:bg-slate-50"
+              className="h-11 px-6 rounded-xl border-border
+                         text-foreground hover:bg-accent"
             >
               Cancel
             </Button>

@@ -14,12 +14,12 @@ const TeamCard: React.FC<TeamCardProps> = ({
   onAddMember,
 }) => {
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+    <div className="bg-card rounded-2xl p-5 border border-border shadow-sm">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold text-base text-gray-900">{title}</h2>
+        <h2 className="font-semibold text-base text-card-foreground">{title}</h2>
         <button
           onClick={onAddMember}
-          className="text-xs font-semibold text-black/80 border border-gray-200 hover:bg-gray-50 px-3 py-2.5 rounded-2xl transition-colors"
+          className="text-xs font-semibold text-card-foreground border border-border hover:bg-muted px-3 py-2.5 rounded-2xl transition-colors"
         >
           + Add Member
         </button>
@@ -43,15 +43,15 @@ const TeamMemberItem: React.FC<TeamMemberItemProps> = ({ member }) => {
     <div className="flex items-center gap-3">
         <Avatar className="size-11 ring-2 ring-border/50">
           {member.avatar && <AvatarImage src={member.avatar} alt={member.name} />}
-          <AvatarFallback className="text-xs font-semibold bg-pink-100 text-pink-700">
+          <AvatarFallback className="text-xs font-semibold bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-200">
             {member.initials}
           </AvatarFallback>
         </Avatar>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-gray-800">{member.name}</p>
-        <p className="text-[11px] text-gray-400 truncate">
+        <p className="text-sm font-semibold text-card-foreground">{member.name}</p>
+        <p className="text-[11px] text-muted-foreground truncate">
           Working on{" "}
-          <span className="font-semibold text-black">{member.task}</span>
+          <span className="font-semibold text-card-foreground">{member.task}</span>
         </p>
       </div>
       <span

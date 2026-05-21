@@ -9,6 +9,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { ErrorBoundary } from "react-error-boundary";
 import { MainErrorFallback } from "./components/error/main.tsx";
 import { HelmetProvider } from "react-helmet-async";
+import { ThemeProvider } from "./components/theme/ThemeProvider";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
       <BrowserRouter>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <Router />
+            <ThemeProvider>
+              <Router />
+            </ThemeProvider>
           </PersistGate>
         </Provider>
       </BrowserRouter>

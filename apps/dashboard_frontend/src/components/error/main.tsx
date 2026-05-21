@@ -4,7 +4,7 @@ import type { FallbackProps } from "react-error-boundary";
 export const MainErrorFallback = ({resetErrorBoundary }: FallbackProps) => {
   return (
     <div
-      className="flex h-screen w-screen flex-col items-center justify-center text-red-500"
+      className="flex h-screen w-screen flex-col items-center justify-center bg-background text-red-500 dark:text-red-400"
       role="alert"
     >
       <h2 className="text-lg font-semibold">Oops, something went wrong</h2>

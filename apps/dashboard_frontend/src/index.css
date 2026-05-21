@@ -6,13 +6,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-.bg-primary {
-  background-color: #16a34a;
-}
-
-.bg-primary:hover {
-  background-color: #15803d;
-}
 .org-table-row {
   border-left: 3px solid transparent;
   transition:
@@ -20,8 +13,7 @@
     border-left-color 150ms ease;
 }
 .org-table-row:hover {
-  background-color: #f1f3f5;
- /* blue-300 — soft accent stripe */
+  background-color: var(--accent);
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -81,8 +73,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #16a34a;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -115,8 +107,8 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: #22c55e;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);

@@ -68,15 +68,15 @@ const AuthCallback: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50">
-      <div className="bg-white p-8 rounded-xl shadow-sm text-center max-w-md w-full">
+    <div className="min-h-screen flex items-center justify-center bg-muted">
+      <div className="bg-card p-8 rounded-xl shadow-sm text-center max-w-md w-full">
         {status === "loading" && (
           <>
             <FiLoader className="w-12 h-12 text-primary animate-spin mx-auto mb-4" />
             <h2 className="text-2xl font-bebas-neue tracking-wider text-primary">
               Authenticating
             </h2>
-            <p className="text-zinc-500 mt-2 text-sm">
+            <p className="text-muted-foreground mt-2 text-sm">
               Please wait while we complete your sign-in.
             </p>
           </>
@@ -90,7 +90,7 @@ const AuthCallback: React.FC = () => {
             <h2 className="text-2xl font-bebas-neue tracking-wider text-primary">
               Authentication Successful
             </h2>
-            <p className="text-zinc-500 mt-2 text-sm">Redirecting...</p>
+            <p className="text-muted-foreground mt-2 text-sm">Redirecting...</p>
           </>
         )}
 
@@ -102,8 +102,8 @@ const AuthCallback: React.FC = () => {
             <h2 className="text-2xl font-bebas-neue tracking-wider text-red-500">
               Authentication Failed
             </h2>
-            <p className="text-zinc-500 mt-2 text-sm">{errorMessage}</p>
-            <p className="text-zinc-400 text-xs mt-2">
+            <p className="text-muted-foreground mt-2 text-sm">{errorMessage}</p>
+            <p className="text-muted-foreground/70 text-xs mt-2">
               Redirecting to login...
             </p>
           </>

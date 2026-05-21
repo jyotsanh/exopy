@@ -17,9 +17,9 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   const strokeDashoffset = 226 - (226 * percentage) / 100;
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-      <h2 className="font-bold text-base text-gray-900 mb-4">{title}</h2>
-      
+    <div className="bg-card rounded-2xl p-5 border border-border shadow-sm">
+      <h2 className="font-bold text-base text-card-foreground mb-4">{title}</h2>
+
       {/* Progress Arc */}
       <div className="flex justify-center mb-4">
         <div className="relative w-44 h-24">
@@ -34,7 +34,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
             <path
               d="M 16 88 A 72 72 0 0 1 160 88"
               fill="none"
-              stroke="#dcfce7"
+              className="stroke-green-100 dark:stroke-green-900/50"
               strokeWidth="18"
               strokeLinecap="round"
             />
@@ -49,12 +49,12 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
               strokeDashoffset={strokeDashoffset}
             />
           </svg>
-          
+
           <div className="absolute bottom-0 w-full text-center">
-            <p className="text-3xl font-black text-gray-900 leading-none">
+            <p className="text-3xl font-black text-card-foreground leading-none">
               {percentage}%
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
         {legends.map((legend, index) => (
           <div key={index} className="flex items-center gap-1.5">
             <div className={`w-2.5 h-2.5 rounded-sm ${legend.cls}`} />
-            <span className="text-xs text-gray-500">{legend.label}</span>
+            <span className="text-xs text-muted-foreground">{legend.label}</span>
           </div>
         ))}
       </div>

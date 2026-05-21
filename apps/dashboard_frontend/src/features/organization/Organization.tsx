@@ -30,7 +30,7 @@ const Organization = () => {
   } = useOrganization();
 
   return (
-    <div className="relative overflow-hidden bg-gray-100 rounded-3xl py-10 px-5 md:px-10">
+    <div className="relative overflow-hidden bg-muted rounded-3xl py-10 px-5 md:px-10">
       <div className="relative z-10 max-w-8xl mx-auto">
         <OrganizationHeader />
 

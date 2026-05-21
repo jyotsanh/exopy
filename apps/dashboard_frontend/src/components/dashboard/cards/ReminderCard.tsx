@@ -33,12 +33,12 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ reminder, onAction }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col h-56">
-      <h2 className="font-bold text-base text-gray-900 mb-3">Reminders</h2>
-      <p className="font-bold text-lg text-gray-900 leading-snug mb-1">
+    <div className="bg-card rounded-2xl p-5 border border-border shadow-sm flex flex-col h-56">
+      <h2 className="font-bold text-base text-card-foreground mb-3">Reminders</h2>
+      <p className="font-bold text-lg text-card-foreground leading-snug mb-1">
         {reminder.title}
       </p>
-      <p className="text-sm text-gray-400 mb-5">Time : {reminder.time}</p>
+      <p className="text-sm text-muted-foreground mb-5">Time : {reminder.time}</p>
       <button
         onClick={onAction}
         className="mt-auto flex items-center justify-center gap-2 w-full bg-green-800 hover:bg-green-900 text-white rounded-xl py-3 text-sm font-semibold shadow-md shadow-green-900/25 transition-colors"

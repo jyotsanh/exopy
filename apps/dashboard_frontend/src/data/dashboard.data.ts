@@ -128,7 +128,9 @@ export const progressLegendData: ProgressLegend[] = [
 export const NOTIFICATION_COUNT = 3;
 
 export const STATUS_STYLES: Record<string, string> = {
-  Completed: "bg-emerald-100 text-emerald-700",
-  "In Progress": "bg-amber-100 text-amber-700",
-  Pending: "bg-rose-100 text-rose-700",
+  Completed:
+    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200",
+  "In Progress":
+    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200",
+  Pending: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-200",
 };

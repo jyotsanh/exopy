@@ -21,14 +21,14 @@ const LoginForm: React.FC = () => {
   } = useLoginForm();
 
   return (
-    <div className="w-full md:w-[55%] xl:w-[43%] min-h-screen bg-white/95 backdrop-blur-md p-6 sm:p-8 md:p-12 flex flex-col justify-center item-center relative z-10 lg:rounded-tr-[4rem] lg:rounded-br-[4rem] ">
+    <div className="w-full md:w-[55%] xl:w-[43%] min-h-screen bg-card/95 backdrop-blur-md p-6 sm:p-8 md:p-12 flex flex-col justify-center item-center relative z-10 lg:rounded-tr-[4rem] lg:rounded-br-[4rem] ">
       <img src="./Logo.png" alt="Logo" className="w-28 h-28 mb-4 absolute top-2 left-5" />
 
       <div className="relative z-10 max-w-md mx-auto w-full pb-20">
         <div className="mb-8 sm:mb-10 flex items-center justify-center flex-col">
 
 
-          <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 mb-2 text-center font-mono">
+          <h2 className="text-3xl sm:text-4xl font-medium text-foreground mb-2 text-center font-mono">
             Welcome back
           </h2>
         </div>
@@ -63,12 +63,12 @@ const LoginForm: React.FC = () => {
           {apiResponse && (
             <Alert
               className={`${apiResponse.success
-                ? "bg-green-50 border-green-200"
-                : "bg-red-50 border-red-200"
+                ? "bg-green-50 border-green-200 dark:bg-green-950/40 dark:border-green-900/60"
+                : "bg-red-50 border-red-200 dark:bg-red-950/40 dark:border-red-900/60"
                 }`}
             >
               <AlertDescription
-                className={`${apiResponse.success ? "text-green-800" : "text-red-800"
+                className={`${apiResponse.success ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"
                   }`}
               >
                 {apiResponse.message}

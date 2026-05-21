@@ -30,16 +30,16 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
       </Button>
 
       <div className="flex items-center gap-4">
-        <div className="flex-1 h-px bg-gray-300" />
-        <span className="text-sm text-gray-500">OR</span>
-        <div className="flex-1 h-px bg-gray-300" />
+        <div className="flex-1 h-px bg-border" />
+        <span className="text-sm text-muted-foreground">OR</span>
+        <div className="flex-1 h-px bg-border" />
       </div>
 
       {/* Google Sign In */}
       <Button
         type="button"
         variant="outline"
-        className="w-full h-12 flex items-center justify-center gap-3 border-gray-300 hover:bg-gray-100 hover:-translate-y-0.5 transition-all duration-200   transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none  "
+        className="w-full h-12 flex items-center justify-center gap-3 border-border bg-card hover:bg-accent hover:-translate-y-0.5 transition-all duration-200   transform disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none  "
         onClick={() => {
           handleGoogleSignIn();
         }}
@@ -49,7 +49,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
           alt="Google"
           className="h-5 w-5"
         />
-        <span className="font-medium text-gray-700 tracking-wide ">
+        <span className="font-medium text-foreground tracking-wide ">
           Continue with Google
         </span>
       </Button>
