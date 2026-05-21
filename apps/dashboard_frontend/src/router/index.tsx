@@ -8,6 +8,8 @@ import AlreadyAuthenticateRoute from "./AlreadyAuthenticateRoute";
 import AuthCallback from "@/pages/oauth/AuthCallback";
 import { paths } from "@/utils/path";
 import Organization from "@/features/organization/Organization";
+import Region from "@/features/region/Region";
+import Branch from "@/features/branch/Branch";
 
 function Router() {
   const routes = [
@@ -49,6 +51,14 @@ function Router() {
         {
           path: paths.controls.organization.path,
           element: <Organization />,
+        },
+        {
+          path: paths.controls.regions.path,
+          element: <Region />,
+        },
+        {
+          path: paths.controls.branches.path,
+          element: <Branch />,
         },
       ],
     },

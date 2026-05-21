@@ -14,6 +14,8 @@ import storageSession from "redux-persist/lib/storage/session";
 
 import authReducer from "@/store/slice/authSlice/authSlice";
 import organization from "./slice/organization/organization.slice";
+import region from "./slice/region/region.slice";
+import branch from "./slice/branch/branch.slice";
 
 const authStorage = sessionStorage.getItem("rememberMe") === "false" ? storageSession : storage;
 
@@ -26,6 +28,8 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   organization,
+  region,
+  branch,
 });
 
 export const store = configureStore({

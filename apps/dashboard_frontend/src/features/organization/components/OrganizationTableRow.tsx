@@ -1,9 +1,11 @@
 // features/organization/components/OrganizationTableRow.tsx
 
 import { FiExternalLink, FiPlus, FiTrash2, FiLoader } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import OrganizationAvatar from "./OrganizationAvatar";
+import { paths } from "@/utils/path";
 import type { OrganizationEntity } from "../types/organization.types";
 
 interface OrganizationTableRowProps {
@@ -20,7 +22,14 @@ const OrganizationTableRow = ({
   isDeleting,
   onDelete,
   onAdd,
-}: OrganizationTableRowProps) => (
+}: OrganizationTableRowProps) => {
+  const navigate = useNavigate();
+
+  const handleOpen = () => {
+    navigate(paths.controls.regions.getHref(org._id));
+  };
+
+  return (
   <TableRow className="org-table-row border-b border-border">
     {/* Serial Number */}
     <TableCell className="py-6 px-7 text-foreground font-semibold text-base w-24">
@@ -46,7 +55,8 @@ const OrganizationTableRow = ({
           size="icon"
           className="w-11 h-11 rounded-2xl border-border
                      bg-card hover:bg-accent text-muted-foreground"
-          title="Open"
+          title="Open regions"
+          onClick={handleOpen}
         >
           <FiExternalLink className="text-base" />
         </Button>
@@ -81,6 +91,7 @@ const OrganizationTableRow = ({
       </div>
     </TableCell>
   </TableRow>
-);
+  );
+};
 
 export default OrganizationTableRow;

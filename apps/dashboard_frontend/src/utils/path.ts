@@ -19,6 +19,17 @@ export const paths = {
       getHref: () => "/organization",
       label: "Organization",
     },
+    regions: {
+      path: "/organization/:orgId/regions",
+      getHref: (orgId: string) => `/organization/${orgId}/regions`,
+      label: "Regions",
+    },
+    branches: {
+      path: "/organization/:orgId/regions/:regionId/branches",
+      getHref: (orgId: string, regionId: string) =>
+        `/organization/${orgId}/regions/${regionId}/branches`,
+      label: "Branches",
+    },
   },
   views: {
     dashboard: {
