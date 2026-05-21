@@ -10,13 +10,16 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session";
 
 import authReducer from "@/store/slice/authSlice/authSlice";
 import organization from "./slice/organization/organization.slice";
 
+const authStorage = sessionStorage.getItem("rememberMe") === "false" ? storageSession : storage;
+
 const authPersistConfig = {
   key: "auth",
-  storage,
+  storage: authStorage,
   whitelist: ["accessToken", "user", "isAuthenticated"],
 };
 

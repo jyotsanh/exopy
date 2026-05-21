@@ -38,16 +38,21 @@ const initialState: IAuthState = {
 };
 export const loginUser = createAsyncThunk<
   ILoginResponse,
-  { email: string; password: string }
->("auth/loginUser", async (credentials, { rejectWithValue }) => {
+  { email: string; password: string; rememberMe?: boolean }
+>("auth/loginUser", async ({ email, password, rememberMe }, { rejectWithValue }) => {
   try {
-    const response = await AxiosInstance.post<ILoginResponse>("/auth/login", credentials);
+    const response = await AxiosInstance.post<ILoginResponse>("/auth/login", { email, password });
+    if (rememberMe) {
+      sessionStorage.removeItem("rememberMe");
+    } else {
+      sessionStorage.setItem("rememberMe", "false");
+    }
     return response.data;
   } catch (error: any) {
-  return rejectWithValue(
-    error?.response?.data?.message ?? "Login failed"
-  );
-}
+    return rejectWithValue(
+      error?.response?.data?.message ?? "Login failed"
+    );
+  }
 });
 export const logout = createAsyncThunk('auth/logout', async () => {
   await AxiosInstance.post('/auth/logout');

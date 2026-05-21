@@ -30,7 +30,7 @@ export const useLoginForm = () => {
       setIsLoading(true);
       setApiResponse(null);
       const response = await dispatch(
-        loginUser({ email: data.email, password: data.password }),
+        loginUser({ email: data.email, password: data.password, rememberMe: data.rememberMe }),
       ).unwrap();
       if (response.success) {
         navigate(paths.views.dashboard.path);
