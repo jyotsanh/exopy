@@ -1,11 +1,8 @@
 # Dependencies (reinstalled inside Docker)
 node_modules/
 
-# Build output (regenerated during Docker build)
-dist/
-
-# React Router dev cache
-.react-router/
+# Compiled output (regenerated during Docker build)
+build/
 
 # Secrets / environment
 .env
@@ -14,6 +11,7 @@ dist/
 
 # Tests / coverage
 coverage/
+.nyc_output/
 
 # Logs
 *.log
@@ -30,7 +28,4 @@ README.md
 
 # Docker files themselves
 Dockerfile
-Dockerfile.dev
 .dockerignore
-docker-compose.yml
-docker-compose.dev.yml
