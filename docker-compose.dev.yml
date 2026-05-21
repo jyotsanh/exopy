@@ -1,0 +1,95 @@
+services:
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  redis_server:
+    image: redis:7-alpine
+    container_name: exopy-redis-service
+    ports:
+      - "6399:6379"
+    restart: unless-stopped
+    volumes:
+      - redis_dev_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── MongoDB (local — replaces Atlas in dev) ───────────────────────────────────
+  mongo_server:
+    image: mongo:7
+    container_name: exopy-mongo-service
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    volumes:
+      - mongo_dev_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── AI Backend (FastAPI + hot reload) ────────────────────────────────────────
+  agent_ai_service:
+    build:
+      context: ./apps/ai_backend
+      dockerfile: Dockerfile
+      target: builder
+    container_name: exopy-agent-dev
+    command: uv run dev
+    volumes:
+      - ./apps/ai_backend/src:/code/src
+    env_file:
+      - ./apps/ai_backend/.env
+    environment:
+      DEV_HOST: "0.0.0.0"   # .env defaults to localhost, unreachable inside Docker
+      DEV_PORT: "8000"
+    ports:
+      - "8015:8000"
+    restart: unless-stopped
+    depends_on:
+      redis_server:
+        condition: service_healthy
+      mongo_server:
+        condition: service_healthy
+
+  # ── Dashboard Backend (Express + tsx watch) ───────────────────────────────────
+  dashboard_backend:
+    build:
+      context: ./apps/dashboard_backend
+      dockerfile: Dockerfile
+      target: builder
+    container_name: exopy-dashboard-backend-dev
+    command: npm run dev
+    volumes:
+      - ./apps/dashboard_backend/src:/app/src
+    env_file:
+      - ./apps/dashboard_backend/.env
+    environment:
+      # Override Atlas URI from .env — use the local Docker MongoDB instead
+      MONGO_URI: "mongodb://exopy-mongo-service:27017/exopy-dev"
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    depends_on:
+      mongo_server:
+        condition: service_healthy
+
+  # ── Dashboard Frontend (Vite dev server + HMR) ────────────────────────────────
+  dashboard_frontend:
+    build:
+      context: ./apps/dashboard_frontend
+      dockerfile: Dockerfile.dev
+    container_name: exopy-frontend-dev
+    volumes:
+      - ./apps/dashboard_frontend:/app       # live source — Vite reads .env from here
+      - /app/node_modules                    # keep container node_modules intact
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+
+volumes:
+  redis_dev_data:
+  mongo_dev_data:

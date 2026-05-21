@@ -16,6 +16,19 @@ const envSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string().min(1, "GOOGLE_CLIENT_SECRET is required"),
   GOOGLE_CALLBACK_URL: z.string().min(1, "GOOGLE_CALLBACK_URL is required"),
   CLIENT_URL: z.string().min(1, "CLIENT_URL is required"),
+
+  SUPERADMIN_EMAIL: z
+    .string()
+    .email("SUPERADMIN_EMAIL must be a valid email")
+    .default("hamaljyotsan@gmail.com"),
+  SUPERADMIN_PASSWORD: z
+    .string()
+    .min(1, "SUPERADMIN_PASSWORD is required")
+    .default("superadmin"),
+  SUPERADMIN_USERNAME: z
+    .string()
+    .min(1, "SUPERADMIN_USERNAME is required")
+    .default("superadmin"),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

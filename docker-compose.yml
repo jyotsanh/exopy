@@ -54,7 +54,7 @@ services:
       context: ./apps/dashboard_backend
       dockerfile: Dockerfile
       target: production
-    container_name: agent-dashboard-backend
+    container_name: exopy-dashboard-backend
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:3000"
@@ -74,7 +74,7 @@ services:
         # Vite bakes this value into the bundle at build time.
         - VITE_BASE_URL=${VITE_BASE_URL}
     image: agent-dashboard-frontend:latest
-    container_name: agent-dashboard-frontend
+    container_name: exopy-dashboard-frontend
     ports:
       - "9023:80"
     env_file:

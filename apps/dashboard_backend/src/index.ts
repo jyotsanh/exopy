@@ -2,6 +2,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import { App } from "./app.js";
 import { env } from "./config/env.js";
+import { seedSuperAdmin } from "./seeds/superAdmin.seed.js";
 
 export class Server {
   private appInstance: App;
@@ -14,6 +15,8 @@ export class Server {
     try {
       await mongoose.connect(env.MONGO_URI);
       console.log("Connected to MongoDB");
+
+      await seedSuperAdmin();
 
       const app = this.appInstance.getApp();
 
