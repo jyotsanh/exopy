@@ -61,7 +61,7 @@ class Settings(BaseSettings):
 
     # Dashboard api
     EXOPY_DASHBOARD_URL:str
-    EXOPY_DASHBOARD_KEY:str = "1234" # TODO: implement proper dashboard key
+    EXOPY_DASHBOARD_KEY:str
 
     # Redis HOST & PORT
     REDIS_HOST:str = "localhost"
