@@ -4,7 +4,7 @@
 
 ---
 
-## Week 1: Security Hardening & Foundation Fixes
+## Week 1: Security Hardening & Foundation Fixes (**completed**)
 
 Foundation work that every subsequent feature depends on.
 
@@ -43,7 +43,7 @@ Foundation work that every subsequent feature depends on.
 
 ---
 
-## Week 2: Region & Branch CRUD (Full Stack)
+## Week 2: Region & Branch CRUD (Full Stack) (**completed**)
 
 Models exist in dashboard_backend but have zero routes/controllers/services. Frontend has no UI.
 
