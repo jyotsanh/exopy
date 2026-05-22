@@ -1,5 +1,7 @@
 import React from "react";
-import  type { RememberMeSectionProps } from "@/features/auth/types/auth.types";
+import { Link } from "react-router-dom";
+import type { RememberMeSectionProps } from "@/features/auth/types/auth.types";
+import { paths } from "@/utils/path";
 
 const RememberMeSection: React.FC<RememberMeSectionProps> = ({ register }) => {
   return (
@@ -14,12 +16,12 @@ const RememberMeSection: React.FC<RememberMeSectionProps> = ({ register }) => {
           Remember me
         </span>
       </label>
-      <a
-        href="#"
+      <Link
+        to={paths.auth.forgotPassword.path}
         className="text-foreground hover:text-green-600 dark:hover:text-green-400 transition-colors font-medium tracking-wide font-mono"
       >
         Forgot password?
-      </a>
+      </Link>
     </div>
   );
 };

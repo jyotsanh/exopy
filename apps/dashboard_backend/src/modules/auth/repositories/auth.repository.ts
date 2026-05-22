@@ -4,7 +4,12 @@ import type { IRefreshToken } from "../../../models/types/index.js";
 import type { Role } from "../../../constants/enum.js";
 import type { deviceInfo } from "../types/index.js";
 import { User } from "../../../models/user.model.js";
+import { Organization } from "../../../models/organization.model.js";
 import { RefreshToken } from "../../../models/refreshToken.model.js";
+import {
+  PasswordResetToken,
+  type IPasswordResetToken,
+} from "../../../models/passwordResetToken.model.js";
 
 export class AuthRepository implements IAuthRepository {
   async findUserByEmail(email: string): Promise<IUser | null> {
@@ -19,15 +24,26 @@ export class AuthRepository implements IAuthRepository {
     username: string,
     email: string,
     hashedPassword: string,
-    role: Role
+    role: Role,
+    orgId?: string
   ): Promise<IUser> {
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
       role,
+      org_id: orgId,
     });
     return newUser.save();
+  }
+
+  async updateUserPassword(userId: string, hashedPassword: string): Promise<void> {
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+  }
+
+  async organizationExists(orgId: string): Promise<boolean> {
+    const org = await Organization.findOne({ _id: orgId, is_deleted: false });
+    return !!org;
   }
 
   async createRefreshToken(
@@ -63,5 +79,36 @@ export class AuthRepository implements IAuthRepository {
       user: userId,
       token: { $ne: currentToken },
     });
+  }
+
+  async deleteAllUserRefreshTokens(userId: string): Promise<void> {
+    await RefreshToken.deleteMany({ user: userId });
+  }
+
+  async createPasswordResetToken(
+    token: string,
+    userId: string,
+    expiresAt: Date
+  ): Promise<IPasswordResetToken> {
+    return PasswordResetToken.create({
+      token,
+      user: userId,
+      expires_at: expiresAt,
+    });
+  }
+
+  async findPasswordResetToken(token: string): Promise<IPasswordResetToken | null> {
+    return PasswordResetToken.findOne({ token });
+  }
+
+  async markPasswordResetTokenUsed(id: string): Promise<void> {
+    await PasswordResetToken.findByIdAndUpdate(id, { used: true });
+  }
+
+  async invalidateUserPasswordResetTokens(userId: string): Promise<void> {
+    await PasswordResetToken.updateMany(
+      { user: userId, used: false },
+      { used: true }
+    );
   }
 }

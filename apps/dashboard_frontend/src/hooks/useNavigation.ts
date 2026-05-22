@@ -1,55 +1,65 @@
-import { LayoutDashboard, Settings, HelpCircle } from "lucide-react";
-import type { NavGroup } from "@/components/theme/sidebar/SidebarNav";
+import { LayoutDashboard, Building2, Shield } from "lucide-react";
+import type { NavGroup, NavItem } from "@/components/theme/sidebar/SidebarNav";
 import { paths } from "@/utils/path";
+import { useAppSelector } from "@/store/hook/hook";
+import { Role } from "@/const/enum";
+
+interface RoleGatedNavItem extends NavItem {
+  allowedRoles?: Role[];
+}
+
+interface RoleGatedNavGroup {
+  title: string;
+  items: RoleGatedNavItem[];
+}
+
+const RAW_GROUPS: RoleGatedNavGroup[] = [
+  {
+    title: "Views",
+    items: [
+      {
+        icon: LayoutDashboard,
+        label: paths.views.dashboard.label,
+        path: paths.views.dashboard.path,
+        description: "Overview of key metrics",
+      },
+    ],
+  },
+  {
+    title: "Control",
+    items: [
+      {
+        icon: Building2,
+        label: paths.controls.organization.label,
+        path: paths.controls.organization.path,
+        description: "Organization control",
+      },
+      {
+        icon: Shield,
+        label: paths.controls.admins.label,
+        path: paths.controls.admins.path,
+        description: "Manage organization admins",
+        allowedRoles: [Role.SuperAdmin],
+      },
+    ],
+  },
+];
 
 export const useNavigation = () => {
-  const navGroups: NavGroup[] = [
-    {
-      title: "Control",
-      items: [
-        {
-          icon: LayoutDashboard,
-          label: paths.controls.organization.label,
-          path: paths.controls.organization.path,
-          description: "organization control",
-        },
-      ],
-    },
-    {
-      title: "Views",
-      items: [
-        {
-          icon: Settings,
-          label: paths.views.dashboard.label,
-          path: paths.views.dashboard.path,
-          description: "Update your account and application settings",
-        },
-        {
-          icon: HelpCircle,
-          label: paths.views.chats.label,
-          path: paths.views.chats.path,
-          description: "Get assistance and support resources",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      items: [
-        {
-          icon: Settings,
-          label: paths.settings.agent.label,
-          path: paths.settings.agent.path,
-          description: "Update your account and application settings",
-        },
-        {
-          icon: HelpCircle,
-          label: paths.settings.department.label,
-          path: paths.settings.department.path,
-          description: "Get assistance and support resources",
-        },
-      ],
-    },
-  ];
+  const role = useAppSelector((state) => state.auth.user?.role) as
+    | Role
+    | undefined;
+
+  const navGroups: NavGroup[] = RAW_GROUPS.map((group) => ({
+    title: group.title,
+    items: group.items
+      .filter(
+        (item) =>
+          !item.allowedRoles ||
+          (role !== undefined && item.allowedRoles.includes(role))
+      )
+      .map(({ allowedRoles: _ignored, ...rest }) => rest),
+  })).filter((group) => group.items.length > 0);
 
   const findCurrentPage = (pathname: string) => {
     for (const group of navGroups) {

@@ -5,10 +5,10 @@ import {
   createOrganizationODT,
   updateOrganizationODT,
   organizationIdParamODT,
-  paginationQueryODT,
 } from "../validators/organization.validator.js";
 import authMiddleware from "../middlewares/auth/authentication.middleware.js";
 import { authorization } from "../middlewares/auth/authorization.middleware.js";
+import { scopeToOwnOrg } from "../middlewares/auth/scopeToOwnOrg.middleware.js";
 import { Role } from "../constants/enum.js";
 import { catchAsync } from "../utils/catchAsync.utils.js";
 
@@ -18,26 +18,28 @@ router.use(authMiddleware());
 
 router.post(
   "/",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
+  authorization([Role.SUPERADMIN]),
   validateRequest(createOrganizationODT),
   catchAsync(OrganizationController.create)
 );
 
 router.get(
   "/",
+  authorization([Role.SUPERADMIN]),
   catchAsync(OrganizationController.getAll)
 );
 
 router.get(
   "/:id",
   validateRequest(organizationIdParamODT, "params"),
+  scopeToOwnOrg("id"),
   catchAsync(OrganizationController.getById)
 );
 
 router.put(
   "/:id",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(organizationIdParamODT, "params"),
+  scopeToOwnOrg("id"),
   validateRequest(updateOrganizationODT),
   catchAsync(OrganizationController.update)
 );

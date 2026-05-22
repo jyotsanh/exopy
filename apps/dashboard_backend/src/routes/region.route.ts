@@ -9,16 +9,18 @@ import {
 } from "../validators/region.validator.js";
 import authMiddleware from "../middlewares/auth/authentication.middleware.js";
 import { authorization } from "../middlewares/auth/authorization.middleware.js";
+import { scopeToOwnOrg } from "../middlewares/auth/scopeToOwnOrg.middleware.js";
 import { Role } from "../constants/enum.js";
 import { catchAsync } from "../utils/catchAsync.utils.js";
 
 const router = Router({ mergeParams: true });
 
 router.use(authMiddleware());
+router.use(authorization([Role.ADMIN]));
+router.use(scopeToOwnOrg("orgId"));
 
 router.post(
   "/",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(regionOrgIdParamODT, "params"),
   validateRequest(createRegionODT),
   catchAsync(RegionController.create)
@@ -38,7 +40,6 @@ router.get(
 
 router.put(
   "/:id",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(regionIdParamODT, "params"),
   validateRequest(updateRegionODT),
   catchAsync(RegionController.update)
@@ -46,7 +47,6 @@ router.put(
 
 router.delete(
   "/:id",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(regionIdParamODT, "params"),
   catchAsync(RegionController.delete)
 );

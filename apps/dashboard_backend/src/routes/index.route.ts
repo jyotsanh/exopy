@@ -4,6 +4,7 @@ import authRoute from "../modules/auth/routes/auth.routes.js";
 import organizationRoute from "./organization.route.js";
 import regionRoute from "./region.route.js";
 import branchRoute from "./branch.route.js";
+import adminRoute from "./admin.route.js";
 
 interface Route {
   path: string;
@@ -17,6 +18,7 @@ const routes: Route[] = [
     path: "/organizations/:orgId/regions/:regionId/branches",
     route: branchRoute,
   },
+  { path: "/admins", route: adminRoute },
 ];
 
 routes.forEach((route) => {

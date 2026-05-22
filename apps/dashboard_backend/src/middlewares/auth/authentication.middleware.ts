@@ -14,7 +14,11 @@ const authMiddleware =
       const token = authHeader.split(" ")[1];
       const decoded = verifyAccessToken(token);
 
-      req.user = { _id: decoded.id.toString(), role: decoded.role };
+      req.user = {
+        _id: decoded.id.toString(),
+        role: decoded.role,
+        org_id: decoded.org_id,
+      };
 
       next();
     } catch (error: any) {

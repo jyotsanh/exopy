@@ -10,6 +10,7 @@ export interface IUser {
   username: string;
   email: string;
   role: string;
+  org_id?: string;
   profile_image?: string;
 }
 export interface IAuthState {

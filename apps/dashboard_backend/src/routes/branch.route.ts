@@ -9,16 +9,18 @@ import {
 } from "../validators/branch.validator.js";
 import authMiddleware from "../middlewares/auth/authentication.middleware.js";
 import { authorization } from "../middlewares/auth/authorization.middleware.js";
+import { scopeToOwnOrg } from "../middlewares/auth/scopeToOwnOrg.middleware.js";
 import { Role } from "../constants/enum.js";
 import { catchAsync } from "../utils/catchAsync.utils.js";
 
 const router = Router({ mergeParams: true });
 
 router.use(authMiddleware());
+router.use(authorization([Role.ADMIN]));
+router.use(scopeToOwnOrg("orgId"));
 
 router.post(
   "/",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(branchScopeParamODT, "params"),
   validateRequest(createBranchODT),
   catchAsync(BranchController.create)
@@ -38,7 +40,6 @@ router.get(
 
 router.put(
   "/:id",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(branchIdParamODT, "params"),
   validateRequest(updateBranchODT),
   catchAsync(BranchController.update)
@@ -46,7 +47,6 @@ router.put(
 
 router.delete(
   "/:id",
-  authorization([Role.SUPERADMIN, Role.ADMIN]),
   validateRequest(branchIdParamODT, "params"),
   catchAsync(BranchController.delete)
 );

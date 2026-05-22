@@ -11,6 +11,17 @@ export const paths = {
       getHref: (redirectTo?: string | null | undefined) =>
         `/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ""}`,
     },
+    forgotPassword: {
+      path: "/forgot-password",
+      getHref: () => "/forgot-password",
+      label: "Forgot Password",
+    },
+    resetPassword: {
+      path: "/reset-password",
+      getHref: (token?: string) =>
+        `/reset-password${token ? `?token=${encodeURIComponent(token)}` : ""}`,
+      label: "Reset Password",
+    },
     label: "Login",
   },
   controls: {
@@ -29,6 +40,11 @@ export const paths = {
       getHref: (orgId: string, regionId: string) =>
         `/organization/${orgId}/regions/${regionId}/branches`,
       label: "Branches",
+    },
+    admins: {
+      path: "/admins",
+      getHref: () => "/admins",
+      label: "Admins",
     },
   },
   views: {

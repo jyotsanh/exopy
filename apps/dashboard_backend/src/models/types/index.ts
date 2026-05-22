@@ -52,10 +52,9 @@ export interface IUser extends Document {
   username: string;
   profile_image?: string;
   role: Role;
+  org_id?: mongoose.Types.ObjectId; // required for ADMIN, absent for SUPERADMIN
   created_by?: mongoose.Types.ObjectId; // user id
-
   updated_by?: mongoose.Types.ObjectId; // user id
- 
   is_deleted: boolean;
   googleId?: string;
   createdAt: Date;

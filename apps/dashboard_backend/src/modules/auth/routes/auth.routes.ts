@@ -3,7 +3,12 @@ import { Request, Response, Router } from "express";
 import { authController, authService } from "../container/index.js";
 import { validateRequest } from "../../../middlewares/validateRequest.middleware.js";
 import { catchAsync } from "../../../utils/catchAsync.utils.js";
-import { loginODT, registerODT } from "../../../validators/auth.validator.js";
+import {
+  loginODT,
+  registerODT,
+  forgotPasswordODT,
+  resetPasswordWithTokenODT,
+} from "../../../validators/auth.validator.js";
 import passport from "passport";
 import { env } from "../../../config/env.js";
 import { daysToMs } from "../../../utils/jwt.js";
@@ -22,6 +27,8 @@ router.post(
 
 router.post(
   "/register",
+  authMiddleware(),
+  authorization([Role.SUPERADMIN]),
   validateRequest(registerODT),
   catchAsync(authController.register)
 );
@@ -29,6 +36,18 @@ router.post(
 router.post("/refresh-token", catchAsync(authController.refreshToken));
 
 router.post("/logout", catchAsync(authController.logout));
+
+router.post(
+  "/forgot-password",
+  validateRequest(forgotPasswordODT),
+  catchAsync(authController.forgotPassword)
+);
+
+router.post(
+  "/reset-password",
+  validateRequest(resetPasswordWithTokenODT),
+  catchAsync(authController.resetPassword)
+);
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -83,14 +102,5 @@ router.get("/me", authMiddleware(), async (req: Request, res: Response) => {
   }
   res.json({ user });
 });
-
-router.get(
-  "/admin",
-  authMiddleware(),
-  authorization([Role.ADMIN]),
-  (req: Request, res: Response) => {
-    res.json({ message: "Welcome, admin!" });
-  },
-);
 
 export default router;

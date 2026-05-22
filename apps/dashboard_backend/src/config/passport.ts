@@ -3,6 +3,7 @@ import { Strategy as GoogleStrategy, Profile } from "passport-google-oauth20";
 import { env } from "./env.js";
 import { User } from "../models/user.model.js";
 import { IUser } from "../models/types/index.js";
+import { Role } from "../constants/enum.js";
 
 const configurePassport = () => {
   passport.use(
@@ -17,38 +18,46 @@ const configurePassport = () => {
         try {
           const email = profile.emails?.[0]?.value;
 
-          // Check if user exists with Google ID
           const googleUser: IUser | null = await User.findOne({
             googleId: profile.id,
+            is_deleted: false,
           });
           if (googleUser) {
-           if(!googleUser.profile_image && profile.photos?.[0]?.value){
-            googleUser.profile_image = profile.photos[0].value;
-            await googleUser.save();
-           }
+            if (
+              googleUser.role !== Role.SUPERADMIN &&
+              googleUser.role !== Role.ADMIN
+            ) {
+              return done(null, false);
+            }
+            if (!googleUser.profile_image && profile.photos?.[0]?.value) {
+              googleUser.profile_image = profile.photos[0].value;
+              await googleUser.save();
+            }
             return done(null, googleUser);
           }
 
-          // Check if user exists with same email
           if (email) {
-            const isExistingUser: IUser | null = await User.findOne({ email });
-            if (isExistingUser) {
-              isExistingUser.googleId = profile.id;
-              isExistingUser.profile_image = profile.photos?.[0]?.value || "";
-              await isExistingUser.save();
-              return done(null, isExistingUser);
+            const existingUser: IUser | null = await User.findOne({
+              email,
+              is_deleted: false,
+            });
+            if (existingUser) {
+              if (
+                existingUser.role !== Role.SUPERADMIN &&
+                existingUser.role !== Role.ADMIN
+              ) {
+                return done(null, false);
+              }
+              existingUser.googleId = profile.id;
+              if (!existingUser.profile_image && profile.photos?.[0]?.value) {
+                existingUser.profile_image = profile.photos[0].value;
+              }
+              await existingUser.save();
+              return done(null, existingUser);
             }
           }
 
-          // New Google user — create account
-          const newUser = await User.create({
-            email,
-            username: profile.displayName || email?.split("@")[0],
-            password: Math.random().toString(36),
-            googleId: profile.id,
-            profile_image: profile.photos?.[0]?.value || "",
-          });
-          return done(null, newUser);
+          return done(null, false);
         } catch (error) {
           return done(error, false);
         }

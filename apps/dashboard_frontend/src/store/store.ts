@@ -16,6 +16,7 @@ import authReducer from "@/store/slice/authSlice/authSlice";
 import organization from "./slice/organization/organization.slice";
 import region from "./slice/region/region.slice";
 import branch from "./slice/branch/branch.slice";
+import admin from "./slice/admin/admin.slice";
 
 const authStorage = sessionStorage.getItem("rememberMe") === "false" ? storageSession : storage;
 
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   organization,
   region,
   branch,
+  admin,
 });
 
 export const store = configureStore({

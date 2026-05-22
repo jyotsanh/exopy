@@ -35,12 +35,12 @@ export class AuthController {
   };
 
   register = async (req: Request, res: Response) => {
-    const { username, email, password, role } = req.body;
+    const { username, email, password, org_id } = req.body;
     const response = await this.authService.register(
       username,
       email,
       password,
-      role
+      org_id
     );
     res.status(StatusCodes.CREATED).json(response);
   };
@@ -77,5 +77,17 @@ export class AuthController {
       success: true,
       message: "Logged out successfully",
     });
+  };
+
+  forgotPassword = async (req: Request, res: Response) => {
+    const { email } = req.body as { email: string };
+    const result = await this.authService.forgotPassword(email);
+    res.status(StatusCodes.SUCCESS).json(result);
+  };
+
+  resetPassword = async (req: Request, res: Response) => {
+    const { token, password } = req.body as { token: string; password: string };
+    const result = await this.authService.resetPassword(token, password);
+    res.status(StatusCodes.SUCCESS).json(result);
   };
 }

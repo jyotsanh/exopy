@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { UAParser } from "ua-parser-js";
 import type { IUser } from "../../../models/types/index.js";
 import type { IAuthRepository } from "../interfaces/IAuthRepository.js";
@@ -12,12 +13,18 @@ import {
 import HttpException from "../../../utils/httpException.utils.js";
 import { Role } from "../../../constants/enum.js";
 
+const PASSWORD_RESET_TOKEN_TTL_MS = 60 * 60 * 1000; // 1 hour
+
 export class AuthService {
   constructor(private readonly repository: IAuthRepository) {}
 
   async login(email: string, password: string, deviceInfo?: deviceInfo): Promise<IAuthResponse> {
     const user = await this.repository.findUserByEmail(email);
     if (!user) {
+      throw HttpException.unauthorized("Invalid credentials.");
+    }
+
+    if (user.role !== Role.SUPERADMIN && user.role !== Role.ADMIN) {
       throw HttpException.unauthorized("Invalid credentials.");
     }
 
@@ -33,19 +40,30 @@ export class AuthService {
     username: string,
     email: string,
     password: string,
-    role: Role = Role.USER
+    orgId: string
   ) {
+    const orgExists = await this.repository.organizationExists(orgId);
+    if (!orgExists) {
+      throw HttpException.badRequest("Organization not found.");
+    }
+
     const existingUser = await this.repository.findUserByEmail(email);
     if (existingUser) {
       throw HttpException.badRequest("Email is already in use.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await this.repository.createUser(username, email, hashedPassword, role);
+    await this.repository.createUser(
+      username,
+      email,
+      hashedPassword,
+      Role.ADMIN,
+      orgId
+    );
 
     return {
       success: true,
-      message: "Registration successful",
+      message: "Admin registered successfully",
     };
   }
 
@@ -77,6 +95,7 @@ export class AuthService {
     const newAccessToken = generateAccessToken({
       id: user._id.toString(),
       role: user.role,
+      org_id: user.org_id?.toString(),
     });
 
     return { accessToken: newAccessToken, user };
@@ -87,6 +106,62 @@ export class AuthService {
       await this.repository.deleteRefreshToken(tokenFromCookie);
     }
     return { success: true, message: "Logged out successfully" };
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.repository.findUserByEmail(email);
+
+    if (user && !user.is_deleted) {
+      await this.repository.invalidateUserPasswordResetTokens(user._id.toString());
+
+      const token = crypto.randomBytes(32).toString("hex");
+      const expiresAt = new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL_MS);
+
+      await this.repository.createPasswordResetToken(
+        token,
+        user._id.toString(),
+        expiresAt
+      );
+
+      // Email sending is out of scope per plan. Log token for development.
+      // In production this would dispatch through an email provider.
+      console.log(
+        `[password-reset] Token for ${user.email}: ${token} (expires ${expiresAt.toISOString()})`
+      );
+    }
+
+    return {
+      success: true,
+      message:
+        "If an account exists with that email, a password reset link has been sent.",
+    };
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const record = await this.repository.findPasswordResetToken(token);
+
+    if (!record || record.used) {
+      throw HttpException.badRequest("Invalid or expired reset token.");
+    }
+
+    if (record.expires_at < new Date()) {
+      throw HttpException.badRequest("Reset token has expired.");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await this.repository.updateUserPassword(
+      record.user.toString(),
+      hashedPassword
+    );
+    await this.repository.markPasswordResetTokenUsed(
+      (record as any)._id.toString()
+    );
+    await this.repository.deleteAllUserRefreshTokens(record.user.toString());
+
+    return {
+      success: true,
+      message: "Password reset successfully. Please log in with your new password.",
+    };
   }
 
   getDeviceInfo(userAgent?: string, ipAddress?: string): deviceInfo {
@@ -109,6 +184,7 @@ export class AuthService {
     const accessToken = generateAccessToken({
       id: user._id.toString(),
       role: user.role,
+      org_id: user.org_id?.toString(),
     });
     const refreshToken = generateRefreshToken({ id: user._id.toString() });
 
@@ -132,6 +208,7 @@ export class AuthService {
         email: user.email,
         username: user.username,
         role: user.role,
+        org_id: user.org_id?.toString(),
         profile_image: user.profile_image,
       },
     };

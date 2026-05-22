@@ -1,23 +1,30 @@
 // features/organization/hooks/useOrganization.ts
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook/hook";
 import type { RootState } from "@/store/store";
 import {
   createOrganization,
   getAllOrganizations,
+  getOrganizationById,
   deleteOrganization,
 } from "@/store/slice/organization/organization.slice";
 import { SEARCH_DEBOUNCE_MS } from "../constants/organization.constants";
 import type { OrganizationForm } from "../types/organization.types";
+import { Role } from "@/const/enum";
 
 export const useOrganization = () => {
   const dispatch = useAppDispatch();
 
   // ── Redux State ──────────────────────────────────────────────
-  const { organizations, pagination, isLoading } = useAppSelector(
-    (state: RootState) => state.organization
-  );
+  const {
+    organizations: orgList,
+    selectedOrganization,
+    pagination,
+    isLoading,
+  } = useAppSelector((state: RootState) => state.organization);
+  const currentUser = useAppSelector((state: RootState) => state.auth.user);
+  const isSuperadmin = currentUser?.role === Role.SuperAdmin;
 
   // ── Local State (no form state needed — RHF handles it) ─────
   const [search, setSearch] = useState("");
@@ -28,18 +35,27 @@ export const useOrganization = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ── Derived State ────────────────────────────────────────────
-  const totalPages = pagination?.totalPages ?? 1;
+  const organizations = useMemo(() => {
+    if (isSuperadmin) return orgList;
+    return selectedOrganization ? [selectedOrganization] : [];
+  }, [isSuperadmin, orgList, selectedOrganization]);
+
+  const totalPages = isSuperadmin ? pagination?.totalPages ?? 1 : 1;
 
   // ── Data Fetching ────────────────────────────────────────────
   const fetchOrganizations = useCallback(() => {
-    dispatch(
-      getAllOrganizations({
-        page: currentPage,
-        limit: perPage,
-        search: search || undefined,
-      })
-    );
-  }, [dispatch, currentPage, perPage, search]);
+    if (isSuperadmin) {
+      dispatch(
+        getAllOrganizations({
+          page: currentPage,
+          limit: perPage,
+          search: search || undefined,
+        })
+      );
+    } else if (currentUser?.org_id) {
+      dispatch(getOrganizationById(currentUser.org_id));
+    }
+  }, [dispatch, currentPage, perPage, search, isSuperadmin, currentUser?.org_id]);
 
   useEffect(() => {
     const delay = search ? SEARCH_DEBOUNCE_MS : 0;

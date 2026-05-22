@@ -17,7 +17,8 @@ export interface IAuthResponse {
     id: string;
     email: string;
     username: string;
-    role: Role; 
+    role: Role;
+    org_id?: string;
     profile_image?: string;
   };
 }

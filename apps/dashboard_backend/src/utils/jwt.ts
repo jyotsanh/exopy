@@ -9,7 +9,11 @@ import HttpException from "./httpException.utils.js";
 const JWT_SECRET = env.JWT_SECRET;
 const JWT_REFRESH_SECRET = env.JWT_REFRESH_SECRET;
 
-export const generateAccessToken = (payload: { id: string; role: string }) => {
+export const generateAccessToken = (payload: {
+  id: string;
+  role: string;
+  org_id?: string;
+}) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "15m" });
 };
 
