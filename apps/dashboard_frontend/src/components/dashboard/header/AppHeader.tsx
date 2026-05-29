@@ -44,7 +44,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
     shadow-none
     bg-transparent
     h-10
-    p-0
+    px-2
     focus:border-0
     focus:outline-none
     focus:ring-0

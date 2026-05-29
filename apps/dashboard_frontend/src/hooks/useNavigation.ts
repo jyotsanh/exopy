@@ -1,51 +1,148 @@
-import { LayoutDashboard, Settings, HelpCircle } from "lucide-react";
+import {
+  LayoutDashboard,
+  Settings,
+  MessageSquare,
+  Building2,
+  GitBranch,
+  Users,
+  Layers,
+  BarChart2,
+  Search,
+  User,
+  Calendar,
+  Globe,
+  Zap,
+  Megaphone,
+  UserCog,
+} from "lucide-react";
 import type { NavGroup } from "@/components/theme/sidebar/SidebarNav";
 import { paths } from "@/utils/path";
 
 export const useNavigation = () => {
   const navGroups: NavGroup[] = [
+    // ==================
+    // Control
+    // ==================
     {
       title: "Control",
       items: [
         {
-          icon: LayoutDashboard,
+          icon: Building2,
           label: paths.controls.organization.label,
           path: paths.controls.organization.path,
-          description: "organization control",
+          description: "Manage your organization",
+        },
+        {
+          icon: GitBranch,
+          label: paths.controls.regions.label,
+          path: paths.controls.regions.path,
+          description: "Manage regions",
+        },
+        {
+          icon: Layers,
+          label: paths.controls.branches.label,
+          path: paths.controls.branches.path,
+          description: "Manage branches",
         },
       ],
     },
+    // ==================
+    // Views
+    // ==================
     {
       title: "Views",
       items: [
         {
-          icon: Settings,
+          icon: LayoutDashboard,
           label: paths.views.dashboard.label,
           path: paths.views.dashboard.path,
-          description: "Update your account and application settings",
+          description: "Overview of your dashboard",
         },
         {
-          icon: HelpCircle,
+          icon: MessageSquare,
           label: paths.views.chats.label,
           path: paths.views.chats.path,
-          description: "Get assistance and support resources",
+          description: "Manage and view chats",
+        },
+        {
+          icon: Globe,
+          label: paths.views.visitors.label,
+          path: paths.views.visitors.path,
+          description: "Track and manage visitors",
+        },
+        {
+          icon: Users,
+          label: paths.views.leads.label,
+          path: paths.views.leads.path,
+          description: "Manage your leads",
+        },
+        {
+          icon: BarChart2,
+          label: paths.views.agentAnalytics.label,
+          path: paths.views.agentAnalytics.path,
+          description: "View agent performance analytics",
+        },
+        {
+          icon: Search,
+          label: paths.views.query.label,
+          path: paths.views.query.path,
+          description: "Manage and view queries",
+        },
+        {
+          icon: User,
+          label: paths.views.profile.label,
+          path: paths.views.profile.path,
+          description: "View and edit your profile",
+        },
+        {
+          icon: Calendar,
+          label: paths.views.googleCalendar.label,
+          path: paths.views.googleCalendar.path,
+          description: "Manage your Google Calendar",
         },
       ],
     },
+    // ==================
+    // Settings
+    // ==================
     {
       title: "Settings",
       items: [
         {
-          icon: Settings,
+          icon: UserCog,
           label: paths.settings.agent.label,
           path: paths.settings.agent.path,
-          description: "Update your account and application settings",
+          description: "Manage agents and their settings",
         },
         {
-          icon: HelpCircle,
+          icon: Layers,
           label: paths.settings.department.label,
           path: paths.settings.department.path,
-          description: "Get assistance and support resources",
+          description: "Manage departments",
+        },
+        {
+          icon: Settings,
+          label: paths.settings.account.label,
+          path: paths.settings.account.path,
+          description: "Manage your account settings",
+        },
+        {
+          icon: Globe,
+          label: paths.settings.platform.label,
+          path: paths.settings.platform.path,
+          description: "Manage platform settings",
+        },
+        {
+          icon: Zap,
+          label: paths.settings.automation.label,
+          path: paths.settings.automation.path,
+          description: "Manage automation workflows",
+        },
+        {
+          icon: Megaphone,
+          label: paths.settings.campaign.label,
+          path: paths.settings.campaign.path,
+          description: "Manage your campaigns",
         },
       ],
     },

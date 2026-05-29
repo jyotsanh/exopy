@@ -10,10 +10,10 @@
 
 declare namespace Express {
   export interface Request {
-    user?: {
-      _id?: string;
-      role?: string;
-      organization_id?: string;
+    user: {
+      _id: string;
+      role: string;
+      organization_id: string;
     };
   }
 }
